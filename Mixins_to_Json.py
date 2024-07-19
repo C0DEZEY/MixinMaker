@@ -3,10 +3,10 @@ import json
 import pickle
 from colorama import init, Fore, Style
 
-# Initialize colorama
+# Init
 init()
 
-# Load previous directory from a file if it exists
+# Load last save
 CONFIG_FILE = 'mixin_config.pkl'
 
 def load_previous_directory():
@@ -19,20 +19,23 @@ def save_directory(directory):
     with open(CONFIG_FILE, 'wb') as f:
         pickle.dump(directory, f)
 
-# Ask user for the mixins directory if not provided
+# Prompt for dir
 previous_directory = load_previous_directory()
 if previous_directory:
     print(f"{Fore.CYAN}Previously used mixins directory: {previous_directory}{Style.RESET_ALL}")
 
 MIXINS_DIR = input(f"{Fore.YELLOW}Enter the directory where your mixin classes are located [{previous_directory}]: {Style.RESET_ALL}") or previous_directory
+MOD_ID = input(f"{Fore.CYAN} Please Enter the MODID of your project:  {Style.RESET_ALL}")
+AUTHOR = input(f"{Fore.YELLOW} Please Enter the auther:  {Style.RESET_ALL}")
+
 if not MIXINS_DIR:
     print(f"{Fore.RED}No directory provided. Exiting.{Style.RESET_ALL}")
     exit(1)
 else:
     save_directory(MIXINS_DIR)
 
-# Define the output path for the mixins.json file
-OUTPUT_FILE = 'src/main/resources/mixin.hypixelplus.json'
+# Output File 
+OUTPUT_FILE = f'src/main/resources/mixins.${MOD_ID}.json'
 
 def get_mixin_classes(mixins_dir):
     mixin_classes = []
@@ -62,7 +65,7 @@ def get_mixin_classes(mixins_dir):
 def generate_mixins_json(mixins_classes, client_mixins, output_file):
     mixins_json = {
         "required": True,
-        "package": "codez.hypixelplus.mixins",
+        "package": f"{AUTHOR}.{MOD_ID}.mixin",
         "compatibilityLevel": "JAVA_8",
         "mixins": mixins_classes,
         "client": client_mixins,
