@@ -35,7 +35,7 @@ else:
     save_directory(MIXINS_DIR)
 
 # Output File 
-OUTPUT_FILE = f'src/main/resources/mixins.${MOD_ID}.json'
+OUTPUT_FILE = f'src/main/resources/mixins.{MOD_ID}.json'
 
 def get_mixin_classes(mixins_dir):
     mixin_classes = []
